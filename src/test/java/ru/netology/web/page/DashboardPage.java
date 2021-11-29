@@ -9,9 +9,9 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
-    private SelenideElement heading = $("[data-test-id='dashboard']");
+    private SelenideElement heading = $("[data-test-id=dashboard]");
     private ElementsCollection cards = $$(".list__item");
-    private ElementsCollection cardButtons = $$("[data-test-id='action-deposit']");
+    private ElementsCollection cardButtons = $$("[data-test-id=action-deposit]");
     public final String balanceStart = "баланс: ";
     public final String balanceFinish = " р.";
 
