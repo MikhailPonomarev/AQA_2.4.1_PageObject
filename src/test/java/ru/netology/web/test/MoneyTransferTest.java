@@ -37,7 +37,7 @@ class MoneyTransferTest {
         int firstCardBalance = dashboardPage.getFirstCardBalance();
         int secondCardBalance = dashboardPage.getSecondCardBalance();
 
-        if (firstCardBalance == secondCardBalance) {
+        if (firstCardBalance == secondCardBalance || firstCardBalance == 0) {
             dashboardPage.firstCardOpen();
             var transferPage = new TransferPage();
             transferPage.transaction("1000", secondAccount);
@@ -46,31 +46,13 @@ class MoneyTransferTest {
             int expected = firstCardBalance + 1000;
 
             assertEquals(expected, firstCardAfterTransaction);
-        } else if (firstCardBalance > secondCardBalance) {
+        } else if (firstCardBalance > secondCardBalance || secondCardBalance == 0) {
             dashboardPage.secondCardOpen();
             var transferPage = new TransferPage();
             transferPage.transaction("5000", firstAccount);
 
             int secondCardAfterTransaction = dashboardPage.getSecondCardBalance();
             int expected = secondCardBalance + 5000;
-
-            assertEquals(expected, secondCardAfterTransaction);
-        } else if (firstCardBalance == 0) {
-            dashboardPage.firstCardOpen();
-            var transferPage = new TransferPage();
-            transferPage.transaction("10000", secondAccount);
-
-            int firstCardAfterTransaction = dashboardPage.getFirstCardBalance();
-            int expected = firstCardBalance + 10000;
-
-            assertEquals(expected, firstCardAfterTransaction);
-        } else if (secondCardBalance == 0) {
-            dashboardPage.firstCardOpen();
-            var transferPage = new TransferPage();
-            transferPage.transaction("10000", firstAccount);
-
-            int secondCardAfterTransaction = dashboardPage.getSecondCardBalance();
-            int expected = secondCardBalance + 10000;
 
             assertEquals(expected, secondCardAfterTransaction);
         } else {
@@ -114,7 +96,7 @@ class MoneyTransferTest {
 
             assertTrue(secondCardAfterTransaction > firstCardAfterTransaction);
             assertTrue(firstCardAfterTransaction >= 0);
-        } else if (firstCardBalance < secondCardBalance) {
+        } else {
             dashboardPage.firstCardOpen();
             var transferPage = new TransferPage();
             transferPage.transaction(String.valueOf(secondCardBalance + 1), secondAccount);
