@@ -2,8 +2,8 @@ package ru.netology.web.page;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
+import ru.netology.web.data.DataHelper;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -21,24 +21,14 @@ public class TransferPage {
         cancelButton.shouldBe(visible);
     }
 
-    public DashboardPage transaction(String moneyAmount, String account) {
+    public void transaction(String moneyAmount, DataHelper.CardInfo cardNumber) {
         amountField.doubleClick().sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE);
         amountField.setValue(moneyAmount);
         fromAccountField.doubleClick().sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE);
-        fromAccountField.setValue(account);
+        fromAccountField.setValue(cardNumber.getCardNumber());
         transferButton.click();
-        return new DashboardPage();
     }
 
-    public void falseTransaction(String moneyAmount, String account) {
-        amountField.doubleClick().sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE);
-        amountField.setValue(moneyAmount);
-        fromAccountField.doubleClick().sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE);
-        fromAccountField.setValue(account);
-        transferButton.click();
-        errorNotification.shouldBe(visible);
-        $(".notification__title").shouldHave(text("Ошибка"));
-    }
 
     public DashboardPage cancelTransferPage() {
         cancelButton.click();
